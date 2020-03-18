@@ -15,9 +15,23 @@ class AdvnfSpider(scrapy.Spider):
             href = link.xpath('.//div/div/a/@href').extract_first()
             data = link.xpath('.//div/div/div[1]/time/text()').extract_first()
             image = link.xpath('.//div/a/img/@src').extract_first()
+
             yield{
                 'title':title,
                 'href':href,
                 'data':data,
                 'image':image,
             }
+            yield scrapy.Request(
+                url='%s' %href,
+                callback=self.parse_detail
+            )
+
+    def parse_detail(self, response):
+        materia = response.xpath('//div/p').extract()
+        tags = response.xpath('//article/div/div[3]/a/text()').extract()
+        yield{
+            'materia':materia,
+            'tags':tags,
+            }
+   
