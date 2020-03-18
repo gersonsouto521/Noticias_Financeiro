@@ -21,8 +21,8 @@ class AdvnfSpider(scrapy.Spider):
             tags = response.xpath('//article/div/div[3]/a/text()').extract()
             yield{
                 'title':title,
-                'href':href,
                 'data':data,
+                'href':href,
                 'image':image,
                 'materia':materia,
                 'tags':tags,
